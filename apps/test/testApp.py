@@ -7,9 +7,9 @@ from PIL import Image, ImageFont, ImageDraw, ImageOps, ImageFilter
 import sys
 import time
 
-rows = int(sys.argv[2])
-cols = int(sys.argv[3])
-mapping = sys.argv[4]
+rows = int(sys.argv[1])
+cols = int(sys.argv[2])
+mapping = sys.argv[3]
 
 options = RGBMatrixOptions()
 options.rows = rows # height of the display

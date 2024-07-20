@@ -116,7 +116,7 @@ case "$response" in
         echo "Isolating CPU core for display"
         sed -i -e 's/$/ isolcpus=3/' /boot/cmdline.txt
         echo "Blacklisting audio module"
-        "blacklist snd_bcm2835" | sudo tee /etc/modprobe.d/blacklist-rgb-matrix.conf
+        "blacklist snd_bcm2835" | sudo tee /etc/modprobe.d/blacklist-rgb-matrix.conf # TODO: Fix this
         update-initramfs -u
         echo "Done."
         sleep 1
@@ -129,7 +129,7 @@ case "$response" in
     echo "Step 8a: Check display hardware mapping"
     echo "A test pattern will be shown on the matrix display in a few seconds."
     sleep 2
-    ( cd ./setup ; python ./checkHardwareMapping.py --no-led-hardware-pulse $rows $cols adafruit-hat)
+    ( cd ./setup ; python ./checkHardwareMapping.py --no-led-hardware-pulse $rows $cols adafruit-hat-pwm)
     read -r "Did you see MatrixPi on your matrix display? [y/N] " response
     case "$response" in
         y|Y ) 
@@ -159,7 +159,7 @@ case "$response" in
     echo "Step 8b: Check display colour mapping"
     echo "Another test pattern will be shown on the matrix display in a few seconds."
     sleep 2
-    ( cd ./setup ; python ./checkColourMapping.py --no-led-hardware-pulse $rows $cols adafruit-hat RBG)
+    ( cd ./setup ; python ./checkColourMapping.py --no-led-hardware-pulse $rows $cols adafruit-hat-pwm RBG)
     read -r -p "Did you see the colours in the following order: RED, GREEN, BLUE? [Y/n]" response
     case "$response" in
         n|N )
@@ -169,7 +169,7 @@ case "$response" in
         * )
         echo "I've adjusted the colour mapping. Another test pattern will be displayed shortly."
         sleep 2
-        ( cd ./setup ; python ./checkColourMapping.py --no-led-hardware-pulse $rows $cols adafruit-hat RGB)
+        ( cd ./setup ; python ./checkColourMapping.py --no-led-hardware-pulse $rows $cols adafruit-hat-pwm RGB)
         read -r -p "Did you see the colours in the following order: RED, GREEN, BLUE? [Y/n]" response
         case "$response" in
             n|N )
@@ -188,7 +188,7 @@ case "$response" in
     clear
 
     echo "Please wait while your configuration is processed."
-    python ./scripts/updateConfig.py $cols $rows adafruit-hat $colourMapping
+    python ./scripts/updateConfig.py $cols $rows adafruit-hat-pwm $colourMapping
     sleep 1
 
     echo "Configurations updated!"

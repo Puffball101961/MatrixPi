@@ -23,7 +23,7 @@ with open('./scripts/main.config', 'r') as file:
 
 
 BOOT_APP =  mainConf['BOOT_APP']
-MATRIX_ARGS = "--led-no-hardware-pulse" # 32 128 adafruit-hat"
+MATRIX_ARGS = ""
 MATRIX_ARGS += " " + str(mainConf["MATRIX_HEIGHT"]) + " " + str(mainConf["MATRIX_WIDTH"]) + " " + mainConf["MATRIX_DRIVER"]
 
 # Splash screen
@@ -77,3 +77,19 @@ async def getCloseApp():
     killApp(runningApp)
     runningApp = spawnApp("home")
     return {"success":"app closed"}
+
+@api.get("/currentApp")
+async def getCurrentApp():
+    global runningApp
+    return {"success": getRunningAppName(runningApp)}
+
+@api.get("/info")
+async def getInfo():
+    global runningApp
+    with open('version', 'r') as f:
+        ver = f.read()
+    return {
+        "version":ver,
+        "runningApp":getRunningAppName(runningApp),
+        "appLibrary":APP_DIRECTORY
+    }
