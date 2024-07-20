@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# TODO: Fix Y/N prompts.
-
 # Clear the terminal
 clear
 
