@@ -1,0 +1,13 @@
+apps:
+  home:
+    executable: "home"
+    humanName: "Home"
+    description: "MatrixPi Default Home App"
+    author: "Puffball"
+    version: 0
+  test:
+    executable: "testApp"
+    humanName: "Testing App"
+    description: "App for testing purposes only."
+    author: "Puffball"
+    version: 0
