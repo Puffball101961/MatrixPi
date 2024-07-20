@@ -8,12 +8,14 @@
 - Testing App
 
 ## App Repository Structure
+```
 app-name/
 ├─ executable.py
 ├─ manifest.yaml
 ├─ app-configs (optional)/
 │  ├─ config.yaml (optional)
 │  ├─ ...
+```
 
 ## Manual App Installation Procedure
 1. Clone your app into the `apps` directory
