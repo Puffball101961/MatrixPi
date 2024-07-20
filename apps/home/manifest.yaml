@@ -1,0 +1,6 @@
+home:
+  executable: "home"
+  humanName: "Home"
+  description: "MatrixPi Default Home App"
+  author: "Puffball"
+  version: 0

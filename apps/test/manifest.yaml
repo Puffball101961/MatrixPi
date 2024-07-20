@@ -1,0 +1,6 @@
+test:
+  executable: "testApp"
+  humanName: "Testing App"
+  description: "App for testing purposes only."
+  author: "Puffball"
+  version: 0

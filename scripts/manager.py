@@ -8,13 +8,23 @@ import signal
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 import uvicorn
+import yaml
 
-APP_DIRECTORY = { # "directoryName":"executableName"
-    "home":"home",
-    "test":"testApp"
-}
-BOOT_APP = "home"
-MATRIX_ARGS = "--led-no-hardware-pulse 32 128 adafruit-hat"
+with open('./apps/library.yaml', 'r') as file:
+    appLib = yaml.safe_load(file)
+
+APP_DIRECTORY = {}
+
+for app in appLib['apps']:
+    APP_DIRECTORY[app] = appLib['apps'][app]['executable']
+
+with open('./scripts/main.config', 'r') as file:
+    mainConf = yaml.safe_load(file)
+
+
+BOOT_APP =  mainConf['BOOT_APP']
+MATRIX_ARGS = "--led-no-hardware-pulse" # 32 128 adafruit-hat"
+MATRIX_ARGS += mainConf["MATRIX_HEIGHT"] + " " + mainConf["MATRIX_WIDTH"] + " " + mainConf["MATRIX_DRIVER"]
 
 # Splash screen
 os.chdir("/home/pi/MatrixPi")
