@@ -1,0 +1,34 @@
+# Dummy home.py file for testing
+# python home.py rows cols mapping colourMap
+
+from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
+# from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions, graphics
+from PIL import Image, ImageFont, ImageDraw, ImageOps, ImageFilter
+import sys
+import time
+
+rows = int(sys.argv[2])
+cols = int(sys.argv[3])
+mapping = sys.argv[4]
+
+options = RGBMatrixOptions()
+options.rows = rows # height of the display
+options.cols = cols # width of the display
+options.parallel = 1
+options.led_rgb_sequence = "RBG"
+options.hardware_mapping = mapping
+
+matrix = RGBMatrix(options = options)
+
+nameFont = ImageFont.load("./apps/home/pil/6x10.pil")
+
+splash = Image.new('RGBA', (cols, rows))
+draw = ImageDraw.Draw(splash)
+draw.text((1,0), "Home", font=nameFont, fill=(255,255,255))
+matrix.SetImage(splash.convert('RGB'))
+
+# Main loop
+while True:
+    time.sleep(1)
+
+matrix.Clear()

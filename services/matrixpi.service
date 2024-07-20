@@ -1,0 +1,10 @@
+[Unit]
+Description=MatrixPi Startup Handler
+
+[Service]
+User=root
+WorkingDirectory=/home/pi/MatrixPi
+ExecStart=python3 ./scripts/manager.py
+
+[Install]
+WantedBy=multi-user.target
