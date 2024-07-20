@@ -183,6 +183,19 @@ case "$response" in
         esac
     ;;
     esac
+
+    sleep 1
+    clear
+
+    echo "Please wait while your configuration is processed."
+    python ./scripts/updateConfig.py $cols $rows adafruit-hat $colourMapping
+    sleep 1
+
+    echo "Configurations updated!"
+    sleep 1
+    clear
+
+    echo "Installation complete!"
 ;;
 * )
     echo "Installation aborted. Exiting..."
