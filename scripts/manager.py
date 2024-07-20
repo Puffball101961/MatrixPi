@@ -24,7 +24,7 @@ with open('./scripts/main.config', 'r') as file:
 
 BOOT_APP =  mainConf['BOOT_APP']
 MATRIX_ARGS = "--led-no-hardware-pulse" # 32 128 adafruit-hat"
-MATRIX_ARGS += mainConf["MATRIX_HEIGHT"] + " " + mainConf["MATRIX_WIDTH"] + " " + mainConf["MATRIX_DRIVER"]
+MATRIX_ARGS += " " + str(mainConf["MATRIX_HEIGHT"]) + " " + str(mainConf["MATRIX_WIDTH"]) + " " + mainConf["MATRIX_DRIVER"]
 
 # Splash screen
 os.chdir("/home/pi/MatrixPi")
@@ -68,6 +68,7 @@ async def getStartApp(appName: str = "home"):
     global runningApp
     killApp(runningApp)
     runningApp = spawnApp(appName)
+    # TODO: Check if app started properly
     return {"success":f"{appName} started"}
 
 @api.get("/closeApp")

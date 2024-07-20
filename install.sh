@@ -22,9 +22,9 @@ echo "  |_|  |_|\__,_|\__|_|  |_/_/\_\_|    |_|"
 echo ""
 echo "You're about to install MatrixPi."
 
-read -r -p "Do you want to proceed? [y/N] " response
-if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
-then
+read -p "Do you want to proceed? [y/N] " response
+case "$response" in
+    y|Y )
     echo "Preparing..."
     clear
 
@@ -57,21 +57,23 @@ then
     # Configure automatic system updates/upgrades
     echo "Step 4: Configuring automatic system updates/upgrades"
     echo "Would you like to enable automatic system updates/upgrades? (Strongly Recommended)"
-    read -r -p "Do you want to enable? [Y/n] " response
-    if [[ "$response" =~ ^([nN][oO][nN])$ ]] # TODO: FIX THIS
-    then
+    read -p "Do you want to enable? [Y/n] " response
+    case "$response" in
+        n|N ) 
         echo "Leaving automatic system updates/upgrades disabled."
         echo "You will be responsible for manually updating/upgrading your system."
         sleep 1
         clear
-    else
+        ;;
+        * )
         echo "Enabling automatic system updates/upgrades."
         sleep 1
         apt-get install unattended-upgrades -y
         echo "Done."
         sleep 1
         clear
-    fi
+        ;;
+    esac
 
     # Install all dependencies
     echo "Step 5: Install dependencies"
@@ -97,39 +99,56 @@ then
     # Configure Raspberry Pi OS
     echo "Step 7: Making tweaks to RPi OS"
     sleep 1
-    echo "Expanding Root Filesystem"
-    raspi-config nonint do_expand_rootfs
-    echo "Isolating CPU core for display"
-    sed -i -e 's/$/ isolcpus=3/' /boot/cmdline.txt
-    echo "Blacklisting audio module"
-    "blacklist snd_bcm2835" | sudo tee /etc/modprobe.d/blacklist-rgb-matrix.conf
-    update-initramfs -u
-    echo "Done."
-    sleep 1
-    clear
+
+    echo "Have you run this script before on this Pi? If so, running the following step again may cause issues. Please skip this step if you have already run through this step."
+    read -p "Skip OS Tweaks? (y/N)" response
+    case "$response" in
+        y|Y )  
+        echo "Skipping OS Tweaks"
+        sleep 1
+        clear
+        ;;
+        * )
+        echo "Expanding Root Filesystem"
+        raspi-config nonint do_expand_rootfs
+        echo "Isolating CPU core for display"
+        sed -i -e 's/$/ isolcpus=3/' /boot/cmdline.txt
+        echo "Blacklisting audio module"
+        "blacklist snd_bcm2835" | sudo tee /etc/modprobe.d/blacklist-rgb-matrix.conf
+        update-initramfs -u
+        echo "Done."
+        sleep 1
+        clear
+        ;;
+    esac
+    
 
     # Check display mapping
     echo "Step 8a: Check display hardware mapping"
     echo "A test pattern will be shown on the matrix display in a few seconds."
     sleep 2
     ( cd ./setup ; python ./checkHardwareMapping.py --no-led-hardware-pulse $rows $cols adafruit-hat)
-    read -r -p "Did you see MatrixPi on your matrix display? [y/N] " response
-    if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
-    then
+    read -r "Did you see MatrixPi on your matrix display? [y/N] " response
+    case "$response" in
+        y|Y ) 
         echo "Great. Your hardware should be fully supported."
-    else
+        ;;
+        * )
         echo "Your hardware may not be fully supported or may be broken. Installation will not continue."
         exit 1
-    fi
-    read -r -p "Was the text the correct way up (not upside down) [y/n] " response
-    if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
-    then
+        ;;
+    esac
+    read -r -p "Was the text the correct way up (not upside down) [Y/n] " response
+    case "$response" in
+        n|N )
         echo "No rotation required"
         rotation=0
-    else
+        ;;
+        * )
         echo "Display is going to be rotated 180 degrees"
         rotation=1
-    fi
+        ;;
+    esac
 
     sleep 2
     clear
@@ -139,30 +158,35 @@ then
     echo "Another test pattern will be shown on the matrix display in a few seconds."
     sleep 2
     ( cd ./setup ; python ./checkColourMapping.py --no-led-hardware-pulse $rows $cols adafruit-hat RBG)
-    read -r -p "Did you see the colours in the following order: RED, GREEN, BLUE? [y/n]" response
-    if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
-    then
+    read -r -p "Did you see the colours in the following order: RED, GREEN, BLUE? [Y/n]" response
+    case "$response" in
+        n|N )
         echo "Great. Your colours are mapped correctly."
         colourMapping=RBG
-    else
+        ;;
+        * )
         echo "I've adjusted the colour mapping. Another test pattern will be displayed shortly."
         sleep 2
         ( cd ./setup ; python ./checkColourMapping.py --no-led-hardware-pulse $rows $cols adafruit-hat RGB)
-        read -r -p "Did you see the colours in the following order: RED, GREEN, BLUE? [y/n]" response
-        if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
-        then
+        read -r -p "Did you see the colours in the following order: RED, GREEN, BLUE? [Y/n]" response
+        case "$response" in
+            n|N )
             echo "Great. Your colours are mapped correctly."
             colourMapping=RGB
-        else
+            ;;
+            * )
             echo "TO IMPLEMENT MORE COLOUR MAPPING OPTIONS" # TODO: Add more colour mapping options
             exit 1
-        fi
-    fi
-
-else
+            ;;
+        esac
+    ;;
+    esac
+;;
+* )
     echo "Installation aborted. Exiting..."
     exit 1
-fi
+;;
+esac
 
                                        
                                        
