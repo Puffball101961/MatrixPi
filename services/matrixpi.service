@@ -4,7 +4,7 @@ Description=MatrixPi Startup Handler
 [Service]
 User=root
 WorkingDirectory=/home/pi/MatrixPi
-ExecStart=python3 ./scripts/manager.py
+ExecStart=fastapi run ./scripts/manager.py --host 0.0.0.0 --port 8000
 
 [Install]
 WantedBy=multi-user.target

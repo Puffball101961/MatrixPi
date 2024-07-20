@@ -1,4 +1,5 @@
 # MatrixPi System Manager
+# sudo fastapi run ./scripts/manager.py --host 0.0.0.0 --port 8000
 
 import os
 import subprocess
@@ -7,7 +8,6 @@ import signal
 
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-import uvicorn
 import yaml
 
 with open('./apps/library.yaml', 'r') as file:
