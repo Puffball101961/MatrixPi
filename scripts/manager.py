@@ -39,6 +39,7 @@ def killApp():
     for app in procList:
         try:
             os.kill(os.getpgid(app.pid), signal.SIGTERM)
+            procList.pop()
         except:
             pass
 
@@ -53,14 +54,7 @@ def spawnApp(appName):
 def getRunningAppName(app):
     return app.args[2].split('/')[2]
 
-# runningApp = spawnApp(BOOT_APP)
 procList.append(spawnApp(BOOT_APP))
-
-# @asynccontextmanager
-# async def lifespan(app: FastAPI):
-#     print("Starting up!")
-#     yield
-#     killApp()
 
 api = FastAPI()
 
@@ -103,10 +97,10 @@ async def getInfo():
 def checkProcHealth():
     crashCount = 0
     while procList[0].poll() != None:
+        print(f"app crash: {procList[0].poll()}")
         if crashCount >= APP_CRASH_LIMIT:
-            os.system("sudo systemctl restart matrixpi")
+            os.system("sudo systemctl restart matrixpi") # Uncomment for prod
         killApp()
-        startApp()
-        crashCount += 1
-        
+        spawnApp()
+        crashCount += 1        
     
