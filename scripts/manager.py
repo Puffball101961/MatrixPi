@@ -24,20 +24,23 @@ with open('./scripts/main.config', 'r') as file:
 
 BOOT_APP =  mainConf['BOOT_APP']
 MATRIX_ARGS = ""
-MATRIX_ARGS += " " + str(mainConf["MATRIX_HEIGHT"]) + " " + str(mainConf["MATRIX_WIDTH"]) + " " + mainConf["MATRIX_DRIVER"]
+MATRIX_ARGS += str(mainConf["MATRIX_HEIGHT"]) + " " + str(mainConf["MATRIX_WIDTH"]) + " " + mainConf["MATRIX_DRIVER"]
+
+procList = []
 
 # Splash screen
 os.chdir("/home/pi/MatrixPi")
 os.system(f"sudo python3 ./scripts/splash.py {MATRIX_ARGS}")
 
 
-def killApp(app): 
-    global runningApp
-    # TODO: Add checks for non-existent app
-    os.kill(os.getpgid(app.pid), signal.SIGTERM)
+def killApp(): 
+    for app in procList:
+        try:
+            os.kill(os.getpgid(app.pid), signal.SIGTERM)
+        except:
+            pass
 
 def spawnApp(appName):
-    # TODO: Add checks for app already running
     if appName not in APP_DIRECTORY.keys():
         return False
     args = ["sudo", "python3", f"./apps/{appName}/{APP_DIRECTORY[appName]}.py"]
@@ -48,14 +51,14 @@ def spawnApp(appName):
 def getRunningAppName(app):
     return app.args[2].split('/')[2]
 
-runningApp = spawnApp(BOOT_APP)
+# runningApp = spawnApp(BOOT_APP)
+procList.append(spawnApp(BOOT_APP))
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    global runningApp
     print("Starting up!")
     yield
-    killApp(runningApp)
+    killApp()
 
 api = FastAPI(lifespan=lifespan)
 
@@ -64,32 +67,27 @@ async def root():
     return {"message": "matrixpi backend api is operational"}
 
 @api.get("/startApp")
-async def getStartApp(appName: str = "home"):
-    global runningApp
-    killApp(runningApp)
-    runningApp = spawnApp(appName)
-    # TODO: Check if app started properly
+def getStartApp(appName: str = "home"):
+    killApp()
+    procList.append(spawnApp(appName))
     return {"success":f"{appName} started"}
 
 @api.get("/closeApp")
-async def getCloseApp():
-    global runningApp
-    killApp(runningApp)
-    runningApp = spawnApp("home")
+def getCloseApp():
+    killApp()
+    procList.append(spawnApp("home"))
     return {"success":"app closed"}
 
 @api.get("/currentApp")
 async def getCurrentApp():
-    global runningApp
-    return {"success": getRunningAppName(runningApp)}
+    return {"success": getRunningAppName(procList[0])}
 
 @api.get("/info")
 async def getInfo():
-    global runningApp
     with open('version', 'r') as f:
         ver = f.read()
     return {
         "version":ver,
-        "runningApp":getRunningAppName(runningApp),
+        "runningApp":getRunningAppName(procList[0]),
         "appLibrary":APP_DIRECTORY
     }
