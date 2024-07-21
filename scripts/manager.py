@@ -7,6 +7,7 @@ import time
 import signal
 
 from fastapi import FastAPI
+from fastapi_utils.tasks import repeat_every
 from contextlib import asynccontextmanager
 import yaml
 
@@ -25,6 +26,7 @@ with open('./scripts/main.config', 'r') as file:
 BOOT_APP =  mainConf['BOOT_APP']
 MATRIX_ARGS = ""
 MATRIX_ARGS += str(mainConf["MATRIX_HEIGHT"]) + " " + str(mainConf["MATRIX_WIDTH"]) + " " + mainConf["MATRIX_DRIVER"]
+APP_CRASH_LIMIT = 10
 
 procList = []
 
@@ -54,13 +56,17 @@ def getRunningAppName(app):
 # runningApp = spawnApp(BOOT_APP)
 procList.append(spawnApp(BOOT_APP))
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    print("Starting up!")
-    yield
-    killApp()
+# @asynccontextmanager
+# async def lifespan(app: FastAPI):
+#     print("Starting up!")
+#     yield
+#     killApp()
 
-api = FastAPI(lifespan=lifespan)
+api = FastAPI()
+
+@api.on_event("shutdown")
+async def shutdownApps():
+    killApp()
 
 @api.get("/")
 async def root():
@@ -91,3 +97,16 @@ async def getInfo():
         "runningApp":getRunningAppName(procList[0]),
         "appLibrary":APP_DIRECTORY
     }
+
+@api.on_event("startup")
+@repeat_every(seconds=5)
+def checkProcHealth():
+    crashCount = 0
+    while procList[0].poll() != None:
+        if crashCount >= APP_CRASH_LIMIT:
+            os.system("sudo systemctl restart matrixpi")
+        killApp()
+        startApp()
+        crashCount += 1
+        
+    
