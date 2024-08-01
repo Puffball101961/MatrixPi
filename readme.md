@@ -8,9 +8,12 @@
 - Testing App
 
 ## App Repository Structure
+Apps can be written in Python (recommended) or C++. 
+If using C++, the app must be compiled and the executable in the app directory must be in the format `<appName>.app`
+C++ Support is extremely limited at the moment.
 ```
 app-name/
-├─ executable.py
+├─ executable
 ├─ manifest.yaml
 ├─ app-configs (optional)/
 │  ├─ config.yaml (optional)
