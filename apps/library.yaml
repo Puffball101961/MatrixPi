@@ -1,11 +1,15 @@
 apps:
   home:
+    appid: 3f6cf61f53fb8e0e29e41f070dcd2fc4
+    language: "py"
     executable: "home"
     humanName: "Home"
     description: "MatrixPi Default Home App"
     author: "Puffball"
     version: 0
   test:
+    appid: fa8e7683ffb3dcd2aafae3e786cf458d
+    language: "py"
     executable: "testApp"
     humanName: "Testing App"
     description: "App for testing purposes only."

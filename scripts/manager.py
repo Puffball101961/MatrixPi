@@ -46,7 +46,14 @@ def killApp():
 def spawnApp(appName):
     if appName not in APP_DIRECTORY.keys():
         return False
-    args = ["sudo", "python3", f"./apps/{appName}/{APP_DIRECTORY[appName]}.py"]
+    
+    if (appLib['apps'][appName]['language'] == "py"):
+        args = ["sudo", "python3", f"./apps/{appName}/{APP_DIRECTORY[appName]}.py"]
+    elif (appLib['apps'][appName]['language'] == "py"):
+        args = ["sudo", f"./apps/{appName}/{APP_DIRECTORY[appName]}.app"]
+    else:
+        return False
+    
     args.extend(MATRIX_ARGS.split(" "))
     app = subprocess.Popen(args, cwd=r'/home/pi/MatrixPi', start_new_session=True)
     return app
@@ -58,7 +65,7 @@ procList.append(spawnApp(BOOT_APP))
 
 api = FastAPI()
 
-@api.on_event("shutdown")
+@api.on_event("shutdown") # TODO: Deprecated apparently, find a way to make work with lifecycle manager
 async def shutdownApps():
     killApp()
 
@@ -92,7 +99,7 @@ async def getInfo():
         "appLibrary":APP_DIRECTORY
     }
 
-@api.on_event("startup")
+@api.on_event("startup") # TODO: Deprecated apparently, find a way to make work with lifecycle manager
 @repeat_every(seconds=5)
 def checkProcHealth():
     crashCount = 0

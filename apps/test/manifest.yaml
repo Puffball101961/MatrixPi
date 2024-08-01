@@ -1,4 +1,6 @@
 test:
+  appid: fa8e7683ffb3dcd2aafae3e786cf458d
+  language: "py"
   executable: "testApp"
   humanName: "Testing App"
   description: "App for testing purposes only."

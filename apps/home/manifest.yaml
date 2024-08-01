@@ -1,4 +1,6 @@
 home:
+  appid: 3f6cf61f53fb8e0e29e41f070dcd2fc4
+  language: "py"
   executable: "home"
   humanName: "Home"
   description: "MatrixPi Default Home App"
