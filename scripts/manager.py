@@ -46,8 +46,10 @@ def killApp():
             pass
 
 def spawnApp(appName):
-    if appName not in APP_DIRECTORY.keys():
+    if appName not in APP_NAMES.keys():
         return False
+    
+    appName = APP_NAMES[appName]
     
     if (appLib['apps'][appName]['language'] == "py"):
         args = ["sudo", "python3", f"./apps/{appName}/{APP_DIRECTORY[appName]}.py"]

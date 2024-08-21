@@ -15,10 +15,14 @@ C++ Support is extremely limited at the moment.
 app-name/
 ├─ executable
 ├─ manifest.yaml
-├─ app-configs (optional)/
-│  ├─ config.yaml (optional)
+├─ assets/ (your internal app configs/ assets/ whatever, optional)
+│  ├─ config.yaml
+│  ├─ background.png
 │  ├─ ...
 ```
+## Installing Apps
+Use `sudo python ./scripts/appInstaller.py <sourceType> <source>`
+- There is currently no mechanism to uninstall apps.
 
 ## Manual App Installation Procedure
 1. Clone your app into the `apps` directory

@@ -1,15 +1,15 @@
 # App installation script
-# Usage: sudo python ./scripts/appInstaller.py <sourceType> <source> [customManifest.yaml]
+# Usage: sudo python ./scripts/appInstaller.py <sourceType> <source>
 # Args:
 #   - sourceType: Either "github" or "local". Local refers to a directory on the local machine
 #   - source: Github repository or local directory where app package is stored
-#   - OPTIONAL: customManifest.yaml: Use a custom manifest file instead of the manifest bundled with the app
 #
+
+# TODO: Support github cloning 
 
 import yaml
 import sys
 import os
-import time
 import shutil
 
 sourceType = sys.argv[1]
@@ -40,7 +40,6 @@ with open(os.path.join(source, "manifest.yaml"), 'r') as file:
 
 class InvalidOption(Exception):
     pass
-
 
 try:
     name = list(manifest.keys())[0]
@@ -114,3 +113,4 @@ with open("./apps/library.yaml", "r") as file:
 if currLibrary:
     with open ("./apps/library.yaml", "w") as file:
         yaml.safe_dump(currLibrary, file, sort_keys=False)
+file.close()
