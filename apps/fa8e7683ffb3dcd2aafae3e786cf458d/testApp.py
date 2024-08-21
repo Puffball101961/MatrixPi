@@ -20,7 +20,7 @@ options.hardware_mapping = mapping
 
 matrix = RGBMatrix(options = options)
 
-nameFont = ImageFont.load("./apps/test/pil/6x10.pil")
+nameFont = ImageFont.load("./apps/fa8e7683ffb3dcd2aafae3e786cf458d/pil/6x10.pil")
 
 splash = Image.new('RGBA', (cols, rows))
 draw = ImageDraw.Draw(splash)

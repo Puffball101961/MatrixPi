@@ -48,13 +48,14 @@ def killApp():
 def spawnApp(appName):
     if appName not in APP_NAMES.keys():
         return False
-    
+
+    appID = appName
     appName = APP_NAMES[appName]
-    
-    if (appLib['apps'][appName]['language'] == "py"):
-        args = ["sudo", "python3", f"./apps/{appName}/{APP_DIRECTORY[appName]}.py"]
-    elif (appLib['apps'][appName]['language'] == "py"):
-        args = ["sudo", f"./apps/{appName}/{APP_DIRECTORY[appName]}.app"]
+
+    if (appLib['apps'][appID]['language'] == "py"):
+        args = ["sudo", "python3", f"./apps/{appID}/{APP_DIRECTORY[appID]}.py"]
+    elif (appLib['apps'][appID]['language'] == "cpp"):
+        args = ["sudo", f"./apps/{appID}/{APP_DIRECTORY[appID]}.app"]
     else:
         return False
     
@@ -78,10 +79,10 @@ async def root():
     return {"message": "matrixpi backend api is operational"}
 
 @api.get("/startApp")
-def getStartApp(appName: str = "home"):
+def getStartApp(appID: str = BOOT_APP):
     killApp()
-    procList.append(spawnApp(appName))
-    return {"success":f"{appName} started"}
+    procList.append(spawnApp(appID))
+    return {"success":f"{appID} started"}
 
 @api.get("/closeApp")
 def getCloseApp():

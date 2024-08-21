@@ -25,7 +25,7 @@ options.hardware_mapping = mapping
 
 matrix = RGBMatrix(options = options)
 
-with open ("./apps/home/config/config.yaml", "r") as f:
+with open ("./apps/3f6cf61f53fb8e0e29e41f070dcd2fc4/config/config.yaml", "r") as f:
     cfg = yaml.safe_load(f)
 
 CONFIG_SLEEP_START = cfg['sleepStart']
