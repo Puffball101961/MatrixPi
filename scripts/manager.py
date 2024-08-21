@@ -15,9 +15,11 @@ with open('./apps/library.yaml', 'r') as file:
     appLib = yaml.safe_load(file)
 
 APP_DIRECTORY = {}
+APP_NAMES = {}
 
 for app in appLib['apps']:
     APP_DIRECTORY[app] = appLib['apps'][app]['executable']
+    APP_NAMES[app] = appLib['apps'][app]['name']
 
 with open('./scripts/main.config', 'r') as file:
     mainConf = yaml.safe_load(file)
