@@ -178,7 +178,7 @@ case "$response" in
             colourMapping=RGB
             ;;
             * )
-            echo "TO IMPLEMENT MORE COLOUR MAPPING OPTIONS" # TODO: Add more colour mapping options
+            echo "Your colour mapping is not currently supported by the installer!" # TODO: Add more colour mapping options
             exit 1
             ;;
         esac
