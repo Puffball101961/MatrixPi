@@ -5,7 +5,7 @@
 #   - source: Github repository or local directory where app package is stored
 #
 
-# TODO: Support github cloning 
+# TODO: Support github sources
 
 import yaml
 import sys

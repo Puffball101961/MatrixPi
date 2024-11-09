@@ -114,9 +114,10 @@ case "$response" in
         echo "Expanding Root Filesystem"
         raspi-config nonint do_expand_rootfs
         echo "Isolating CPU core for display"
-        sed -i -e 's/$/ isolcpus=3/' /boot/cmdline.txt
+        cat /boot/cmdline.txt | grep -q isolcpus=3 || sed -i -e 's/$/ isolcpus=3/' /boot/cmdline.txt
         echo "Blacklisting audio module"
-        "blacklist snd_bcm2835" | sudo tee /etc/modprobe.d/blacklist-rgb-matrix.conf # TODO: Fix this
+        sudo rm /etc/modprobe.d/blacklist-rgb-matrix.conf
+        "blacklist snd_bcm2835" | sudo tee /etc/modprobe.d/blacklist-rgb-matrix.conf
         update-initramfs -u
         echo "Done."
         sleep 1
