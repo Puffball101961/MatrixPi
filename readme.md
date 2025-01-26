@@ -20,11 +20,17 @@ app-name/
 │  ├─ background.png
 │  ├─ ...
 ```
+## App Manifests
+Each app must have an app manifest. This has general information about the app, including its name, version, author, and whether the app is in Python or C++.
+The app manifest must also include a unique `appID`. This is crucial so the app doesn't conflict with others. Currently, the built-in apps use a random 32 character long hex string.
+
 ## Installing Apps
 Use `sudo python ./scripts/appInstaller.py <sourceType> <source>`
 - There is currently no mechanism to uninstall apps.
+- The only valid source type right now is "local". Git support is planned.
+- When using the local source type, provide the full directory of the package to be installed as the source argument.
 
 ## Manual App Installation Procedure
 1. Clone your app into the `apps` directory
 2. Add your app manifest details into the app library yaml (`library.yaml`)
-3. Start your app by accessing the internal API, `https://ip-address-of-pi:8000/startApp?appName=appName`
+3. Start your app by accessing the internal API, `https://ip-address-of-pi:8000/startApp?appID=appID`
