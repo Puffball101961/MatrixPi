@@ -93,7 +93,6 @@ def getStartApp(appID: str = BOOT_APP):
 @api.get("/closeApp")
 def getCloseApp():
     killApp()
-    print(APP_NAMES)
     procList.append(spawnApp(BOOT_APP)) # Spawn the home app
     return {"success":"app closed"}
 
