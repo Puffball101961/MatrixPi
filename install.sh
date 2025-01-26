@@ -85,7 +85,7 @@ if [[ $1 != "--resume" ]]; then
         sleep 1
         apt-get install python3 python3-dev python3-pillow python3-pip cython3 -y
         python -m venv ./MatrixPi/env
-        ./MatrixPi/env/pip install -r ./MatrixPi/requirements.txt
+        sudo ./MatrixPi/env/pip install -r ./MatrixPi/requirements.txt
         git clone https://github.com/hzeller/rpi-rgb-led-matrix --depth=1
         ( cd ./rpi-rgb-led-matrix ; make build-python PYTHON=/home/pi/MatrixPi/env/bin/python3 )
         ( cd ./rpi-rgb-led-matrix ; sudo make install-python PYTHON=/home/pi/MatrixPi/env/bin/python3 )
@@ -109,7 +109,7 @@ if [[ $1 != "--resume" ]]; then
             echo "Expanding Root Filesystem"
             raspi-config nonint do_expand_rootfs
             echo "Isolating CPU core for display"
-            cat /boot/cmdline.txt | grep -q isolcpus=3 || sed -i -e 's/$/ isolcpus=3/' /boot/cmdline.txt
+            cat /boot/firmware/cmdline.txt | grep -q isolcpus=3 || sed -i -e 's/$/ isolcpus=3/' /boot/firmware/cmdline.txt
             echo "Blacklisting audio module"
             sudo rm /etc/modprobe.d/blacklist-rgb-matrix.conf
             echo "blacklist snd_bcm2835" | sudo tee /etc/modprobe.d/blacklist-rgb-matrix.conf
@@ -119,6 +119,7 @@ if [[ $1 != "--resume" ]]; then
             echo "When you are back to the command line, run "sudo install.sh --resume" to continue."
             read -r -p "Press enter to reboot now."
             sudo reboot
+            sleep 2
             ;;
         esac
         ;;
@@ -142,7 +143,7 @@ clear
 echo "Step 8a: Check display hardware mapping"
 echo "A test pattern will be shown on the matrix display in a few seconds."
 sleep 1
-( cd ./MatrixPi/setup ; /home/pi/MatrixPi/env/bin/python3 ./checkHardwareMapping.py --led-no-hardware-pulse $rows $cols adafruit-hat-pwm)
+( cd ./MatrixPi/setup ; /home/pi/MatrixPi/env/bin/python ./checkHardwareMapping.py --led-no-hardware-pulse $rows $cols adafruit-hat-pwm)
 read -r -p "Did you see MatrixPi on your matrix display? [y/N] " response
 case "$response" in
     y|Y ) 
