@@ -1,0 +1,17 @@
+apps:
+  3f6cf61f53fb8e0e29e41f070dcd2fc4:
+    name: home
+    language: py
+    executable: home
+    humanName: Home
+    description: MatrixPi Default Home App
+    author: Puffball
+    version: 0
+  fa8e7683ffb3dcd2aafae3e786cf458d:
+    name: test
+    language: py
+    executable: testApp
+    humanName: Testing App
+    description: App for testing purposes only.
+    author: Puffball
+    version: 0
