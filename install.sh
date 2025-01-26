@@ -42,7 +42,7 @@ case "$response" in
     # Clone the repository
     echo "Step 2: Downloading MatrixPi"
     sleep 1
-    git clone --depth=1 https://github.com/Puffball101961/MatrixPi.git /home/pi/MatrixPi
+    git clone --depth=1 --branch=wip https://github.com/Puffball101961/MatrixPi.git /home/pi/MatrixPi
     chown -R pi:pi /home/pi/MatrixPi
     echo "Done."
     sleep 1
@@ -82,6 +82,7 @@ case "$response" in
     echo "This step may take a while depending on your Raspberry Pi model and SD card performance."
     sleep 1
     apt-get install python3 python3-dev python3-pillow python3-pip -y
+    sudo pip install -r ./MatrixPi/requirements.txt
     git clone https://github.com/hzeller/rpi-rgb-led-matrix --depth=1
     ( cd ./rpi-rgb-led-matrix/bindings/python ; make build-python PYTHON=$(command -v python3) )
     ( cd ./rpi-rgb-led-matrix/bindings/python ; sudo make install-python PYTHON=$(command -v python3))
@@ -129,9 +130,9 @@ case "$response" in
     # Check display mapping
     echo "Step 8a: Check display hardware mapping"
     echo "A test pattern will be shown on the matrix display in a few seconds."
-    sleep 2
-    ( cd ./setup ; python ./checkHardwareMapping.py --no-led-hardware-pulse $rows $cols adafruit-hat-pwm)
-    read -r "Did you see MatrixPi on your matrix display? [y/N] " response
+    sleep 1
+    ( cd ./MatrixPi/setup ; python ./checkHardwareMapping.py --no-led-hardware-pulse $rows $cols adafruit-hat-pwm)
+    read -r -p "Did you see MatrixPi on your matrix display? [y/N] " response
     case "$response" in
         y|Y ) 
         echo "Great. Your hardware should be fully supported."
@@ -153,14 +154,14 @@ case "$response" in
         ;;
     esac
 
-    sleep 2
+    sleep 1
     clear
 
     # Check colour mapping
     echo "Step 8b: Check display colour mapping"
     echo "Another test pattern will be shown on the matrix display in a few seconds."
-    sleep 2
-    ( cd ./setup ; python ./checkColourMapping.py --no-led-hardware-pulse $rows $cols adafruit-hat-pwm RBG)
+    sleep 1
+    ( cd ./MatrixPi/setup ; python ./checkColourMapping.py --no-led-hardware-pulse $rows $cols adafruit-hat-pwm RBG)
     read -r -p "Did you see the colours in the following order: RED, GREEN, BLUE? [Y/n]" response
     case "$response" in
         n|N )
@@ -170,7 +171,7 @@ case "$response" in
         * )
         echo "I've adjusted the colour mapping. Another test pattern will be displayed shortly."
         sleep 2
-        ( cd ./setup ; python ./checkColourMapping.py --no-led-hardware-pulse $rows $cols adafruit-hat-pwm RGB)
+        ( cd ./MatrixPi/setup ; python ./checkColourMapping.py --no-led-hardware-pulse $rows $cols adafruit-hat-pwm RGB)
         read -r -p "Did you see the colours in the following order: RED, GREEN, BLUE? [Y/n]" response
         case "$response" in
             n|N )
@@ -189,7 +190,7 @@ case "$response" in
     clear
 
     echo "Please wait while your configuration is processed."
-    python ./scripts/updateConfig.py $cols $rows adafruit-hat-pwm $colourMapping
+    python ./MatrixPi/scripts/updateConfig.py $cols $rows adafruit-hat-pwm $colourMapping
     sleep 1
 
     echo "Configurations updated!"
@@ -198,7 +199,7 @@ case "$response" in
 
     echo "Enabling MatrixPi system service"
     sleep 1
-    sudo systemctl enable MatrixPi
+    sudo systemctl enable matrixpi
 
     echo "Installation complete!"
     echo "You must now reboot your Pi to fully install MatrixPi."
