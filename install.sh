@@ -204,7 +204,7 @@ sleep 1
 clear
 
 echo "Please wait while your configuration is processed."
-/home/pi/MatrixPi/env/bin/python3 ./MatrixPi/scripts/updateConfig.py $cols $rows adafruit-hat-pwm $colourMapping
+/home/pi/MatrixPi/env/bin/python ./MatrixPi/scripts/updateConfig.py $cols $rows adafruit-hat-pwm $colourMapping
 sleep 1
 
 echo "Configurations updated!"

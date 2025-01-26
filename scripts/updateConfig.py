@@ -15,7 +15,7 @@ configVals = {
     "MATRIX_COLOUR":colour,
 }
 
-with open ("./scripts/main.config", "r") as file:
+with open ("./MatrixPi/scripts/main.config", "r") as file:
     config = yaml.safe_load(file)
     
 for val in configVals.keys():
