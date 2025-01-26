@@ -1,7 +1,7 @@
 # Usage: python checkHardwareMapping.py --led-no-hardware-pulse rows cols mapping
 
-from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
-from PIL import Image, ImageFont, ImageDraw, ImageOps, ImageFilter
+from rgbmatrix import RGBMatrix, RGBMatrixOptions
+from PIL import Image, ImageFont, ImageDraw
 import sys
 import time
 
@@ -16,9 +16,10 @@ options.parallel = 1
 options.led_rgb_sequence = "RBG"
 options.hardware_mapping = mapping
 
-matrix = RGBMatrix(options = options)
 
 nameFont = ImageFont.load("./pil/6x10.pil")
+
+matrix = RGBMatrix(options = options)
 
 # Display Test Text
 splash = Image.new('RGBA', (cols, rows))

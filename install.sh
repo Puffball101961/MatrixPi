@@ -84,7 +84,9 @@ if [[ $1 != "--resume" ]]; then
         echo "This step may take a while depending on your Raspberry Pi model and SD card performance."
         sleep 1
         apt-get install python3 python3-dev python3-pillow python3-pip cython3 -y
+        echo "Creating venv"
         python -m venv ./MatrixPi/env
+        echo "Installing python modules"
         sudo ./MatrixPi/env/bin/pip install -r ./MatrixPi/requirements.txt
         git clone https://github.com/hzeller/rpi-rgb-led-matrix --depth=1
         ( cd ./rpi-rgb-led-matrix ; make build-python PYTHON=/home/pi/MatrixPi/env/bin/python3 )
@@ -215,4 +217,3 @@ sudo systemctl enable matrixpi
 
 echo "Installation complete!"
 echo "You must now reboot your Pi to fully install MatrixPi."
-;;
