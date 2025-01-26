@@ -2,3 +2,4 @@ fastapi[all]
 fastapi-utils
 pyyaml
 mypy-extensions
+pillow

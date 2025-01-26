@@ -20,7 +20,7 @@ matrix = RGBMatrix(options = options)
 
 time.sleep(4)
 
-nameFont = ImageFont.load("./pil/6x10.pil")
+nameFont = ImageFont.load("/home/pi/MatrixPi/setup/pil/6x10.pil")
 
 # Display Test Text
 splash = Image.new('RGBA', (cols, rows))
