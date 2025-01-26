@@ -11,6 +11,7 @@
 
 ## Base Hardware
 - 128x32 RGB Matrix Display (Made of 2 64x32 RGB Matrix Displays)
+- Adafruit RGB Matrix PWM HAT
 - Raspberry Pi (Ideally at least a 3A+)
 
 ## App List
