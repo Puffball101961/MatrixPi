@@ -1,7 +1,7 @@
 # Usage: python checkColourMapping.py rows cols mapping colourMap
 
-from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
-from PIL import Image, ImageFont, ImageDraw, ImageOps, ImageFilter
+from rgbmatrix import RGBMatrix, RGBMatrixOptions
+from PIL import Image, ImageDraw
 import sys
 import time
 

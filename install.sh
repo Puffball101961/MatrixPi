@@ -173,7 +173,7 @@ clear
 echo "Step 8b: Check display colour mapping"
 echo "Another test pattern will be shown on the matrix display in a few seconds."
 sleep 1
-( cd ./MatrixPi/setup ; /home/pi/MatrixPi/env/bin/python3 ./checkColourMapping.py --led-no-hardware-pulse $rows $cols adafruit-hat-pwm RBG)
+( cd ./MatrixPi/setup ; /home/pi/MatrixPi/env/bin/python ./checkColourMapping.py --led-no-hardware-pulse $rows $cols adafruit-hat-pwm RBG)
 read -r -p "Did you see the colours in the following order: RED, GREEN, BLUE? [Y/n]" response
 case "$response" in
     n|N )
