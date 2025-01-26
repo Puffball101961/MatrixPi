@@ -179,10 +179,6 @@ sleep 1
 read -r -p "Did you see the colours in the following order: RED, GREEN, BLUE? [Y/n]" response
 case "$response" in
     n|N )
-    echo "Great. Your colours are mapped correctly."
-    colourMapping=RBG
-    ;;
-    * )
     echo "I've adjusted the colour mapping. Another test pattern will be displayed shortly."
     sleep 2
     ( cd ./MatrixPi/setup ; /home/pi/MatrixPi/env/bin/python3 ./checkColourMapping.py --no-led-hardware-pulse $rows $cols adafruit-hat-pwm RGB)
@@ -197,6 +193,10 @@ case "$response" in
         exit 1
         ;;
     esac
+    ;;
+    * )
+    echo "Great. Your colours are mapped correctly."
+    colourMapping=RBG
 ;;
 esac
 
