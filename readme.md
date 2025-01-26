@@ -6,7 +6,7 @@
 ## Active Development
 - Active development is occurring on the `wip` branch. 
 - There is no schedule or regularity to commit timings at the moment.
-- There is no ETA on an official Alpha build.
+- There is currently an Alpha build that is not fully tested, and most likely will be unstable.
 - Usage testing is occuring during development.
 
 ## Base Hardware
