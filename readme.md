@@ -3,6 +3,9 @@
 # MatrixPi: An RGB Matrix app framework Powered by Raspberry Pi
 <img src="https://img.shields.io/badge/License-GNU_GPLv3-blue">
 
+## Installation
+`cd ~; curl -sSL https://raw.githubusercontent.com/Puffball101961/MatrixPi/refs/heads/main/install.sh -o install.sh; chmod +x install.sh; sudo ./install.sh`
+
 ## Active Development
 - Active development is occurring on the `wip` branch. 
 - There is no schedule or regularity to commit timings at the moment.
