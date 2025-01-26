@@ -44,7 +44,7 @@ if [[ $1 != "--resume" ]]; then
         # Clone the repository
         echo "Step 2: Downloading MatrixPi"
         sleep 1
-        git clone --depth=1 --branch=wip https://github.com/Puffball101961/MatrixPi.git /home/pi/MatrixPi
+        git clone --depth=1 https://github.com/Puffball101961/MatrixPi.git /home/pi/MatrixPi
         chown -R pi:pi /home/pi/MatrixPi
         echo "Done."
         sleep 1
