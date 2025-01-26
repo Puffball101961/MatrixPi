@@ -85,7 +85,7 @@ if [[ $1 != "--resume" ]]; then
         sleep 1
         apt-get install python3 python3-dev python3-pillow python3-pip cython3 -y
         python -m venv ./MatrixPi/env
-        sudo ./MatrixPi/env/pip install -r ./MatrixPi/requirements.txt
+        sudo ./MatrixPi/env/bin/pip install -r ./MatrixPi/requirements.txt
         git clone https://github.com/hzeller/rpi-rgb-led-matrix --depth=1
         ( cd ./rpi-rgb-led-matrix ; make build-python PYTHON=/home/pi/MatrixPi/env/bin/python3 )
         ( cd ./rpi-rgb-led-matrix ; sudo make install-python PYTHON=/home/pi/MatrixPi/env/bin/python3 )
