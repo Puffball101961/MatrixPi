@@ -196,7 +196,12 @@ case "$response" in
     sleep 1
     clear
 
+    echo "Enabling MatrixPi system service"
+    sleep 1
+    sudo systemctl enable MatrixPi
+
     echo "Installation complete!"
+    echo "You must now reboot your Pi to fully install MatrixPi."
 ;;
 * )
     echo "Installation aborted. Exiting..."
