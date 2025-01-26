@@ -33,7 +33,7 @@ APP_CRASH_LIMIT = 10
 procList = []
 
 # Splash screen
-os.chdir("/home/pi/MatrixPi")
+# os.chdir("/home/pi/MatrixPi")
 os.system(f"sudo python3 ./scripts/splash.py {MATRIX_ARGS}")
 
 
@@ -60,11 +60,14 @@ def spawnApp(appName):
         return False
     
     args.extend(MATRIX_ARGS.split(" "))
-    app = subprocess.Popen(args, cwd=r'/home/pi/MatrixPi', start_new_session=True)
+    app = subprocess.Popen(args, cwd=os.getcwd(), start_new_session=True)
     return app
 
 def getRunningAppName(app):
     return app.args[2].split('/')[2]
+
+def checkIfAppIDIsValid(appID):
+    return appID in APP_NAMES.keys()
 
 procList.append(spawnApp(BOOT_APP))
 
@@ -80,14 +83,18 @@ async def root():
 
 @api.get("/startApp")
 def getStartApp(appID: str = BOOT_APP):
-    killApp()
-    procList.append(spawnApp(appID))
-    return {"success":f"{appID} started"}
+    if checkIfAppIDIsValid(appID):
+        killApp()
+        procList.append(spawnApp(appID))
+        return {"success":f"{appID} started"}
+    else:
+        return {"failure":"appID invalid"}
 
 @api.get("/closeApp")
 def getCloseApp():
     killApp()
-    procList.append(spawnApp("home"))
+    print(APP_NAMES)
+    procList.append(spawnApp(BOOT_APP)) # Spawn the home app
     return {"success":"app closed"}
 
 @api.get("/currentApp")
