@@ -21,6 +21,6 @@ with open ("./MatrixPi/scripts/main.config", "r") as file:
 for val in configVals.keys():
     config[val] = configVals[val]
     
-with open ("./scripts/main.config", "w") as file:
+with open ("./MatrixPi/scripts/main.config", "w") as file:
     yaml.safe_dump(config, file, sort_keys=False)
     
