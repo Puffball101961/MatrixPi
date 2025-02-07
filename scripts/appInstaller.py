@@ -52,6 +52,7 @@ try:
     description = manifest[name]['description']
     author = manifest[name]['author']
     version = manifest[name]['version']
+    compatibleScreenSizes = manifest[name]['compatibleScreenSizes']
 except (KeyError, InvalidOption):
     print("Manifest verification failed")
     exit(1)
@@ -102,7 +103,8 @@ newData = {
         "humanName": humanName,
         "description": description,
         "author": author,
-        "version": version
+        "version": version,
+        "compatibleScreenSizes": compatibleScreenSizes
     }
 }
 

@@ -6,3 +6,6 @@ test:
   description: "App for testing purposes only."
   author: "Puffball"
   version: 0
+  compatibleScreenSizes: [
+    "128x32"
+  ]

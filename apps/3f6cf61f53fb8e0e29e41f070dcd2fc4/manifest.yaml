@@ -6,3 +6,6 @@ home:
   description: "MatrixPi Default Home App"
   author: "Puffball"
   version: 0
+  compatibleScreenSizes: [
+    "128x32"
+  ]
