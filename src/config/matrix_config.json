@@ -1,0 +1,7 @@
+{
+    "version":1,
+    "matrixWidth":128,
+    "matrixHeight":32,
+    "matrixDriver":"adafruit-hat",
+    "matrixColourMapping":"RBG"
+}

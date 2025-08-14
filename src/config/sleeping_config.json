@@ -1,0 +1,7 @@
+{
+    "version": 1,
+    "sleepingEnabled": true,
+    "startTime": "20:00",
+    "endTime": "07:00",
+    "brightness": 10
+}
